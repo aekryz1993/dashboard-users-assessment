@@ -1,0 +1,22 @@
+@import "tailwind";
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizelegibility;
+
+  ::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 50px;
+  }
+}
