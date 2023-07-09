@@ -1,6 +1,6 @@
 const routesList = {
   home: '/',
-  invoice: '/invoices',
+  invoiceList: '/invoices',
 };
 
 export default routesList;
