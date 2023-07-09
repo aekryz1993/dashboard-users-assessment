@@ -13,22 +13,23 @@ const InvoiceModel: ModelDefinition<Invoice> = Model.extend({
 export function serverConfig(Server: typeof MirageServer): MirageServer {
   return new Server({
     serializers: {
-      invoice: RestSerializer.extend({
-        include: ['user'],
-        embed: true,
-      }),
+      // invoice: RestSerializer.extend({
+      //   include: ['user'],
+      // }),
       application: JSONAPISerializer,
     },
     models: {
       user: UserModel,
       invoice: InvoiceModel,
     },
-    seeds: (server) => seeds(server),
+    seeds,
     routes() {
-      this.namespace = "api";
-
-      this.get("invoices", (schema, request) => {
-        return schema.db.invoices
+      this.get("/api/invoices", (schema, request) => {
+        return schema.db.invoices.map((invoice: Invoice) => {
+          const { userId, ...restProps } = invoice;
+          const user = schema.db.users.find(userId) as User
+          return {...restProps, user}
+        })
       })
     },
     environment: "development"

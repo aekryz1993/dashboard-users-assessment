@@ -1,12 +1,13 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
 import { Home, InvoiceList } from "@/pages";
+import { invoiceListLoader } from "@/loaders";
+import { QueryClient } from '@tanstack/react-query'
 
-const router = createBrowserRouter(
+const router = (queryClient : QueryClient) => createBrowserRouter(
   createRoutesFromElements([
-    <Route element={<Home />}>
-      <Route index element={<InvoiceList />} />
-    </Route>
-  ])
+  <Route path="/" element={<Home />}>
+    <Route index element={<InvoiceList />} loader={invoiceListLoader(queryClient)} />
+  </Route>]),
 )
 
 export default router;
