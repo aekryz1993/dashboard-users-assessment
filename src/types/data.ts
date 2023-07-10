@@ -1,4 +1,4 @@
-import { INVOICE_STATUS } from "./enums";
+import { INVOICES_SORT_COLUMN, INVOICE_STATUS, SORT_DIRECTION } from "./enums";
 
 export interface DateCollectionType {
   createdAt?: Date;
@@ -24,3 +24,12 @@ export interface InvoiceType {
   createdAt?: Date;
   updatedAt: Date;
 }
+
+export type InvoicesQueryParams = {
+  take?: string;
+  limit?: string;
+  search?: string;
+  filter?: INVOICE_STATUS;
+  sort?: INVOICES_SORT_COLUMN;
+  direction?: SORT_DIRECTION;
+};

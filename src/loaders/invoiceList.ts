@@ -1,19 +1,14 @@
-import api from "@/services"
-import { QueryClient } from "@tanstack/react-query"
+import store from "@/store";
+import { invoicesAtom, invoicesQPAtom, invoicesQPState } from "@/store/invoices";
+import fetchInvoices from "@/queries/invoices";
 
-const invoicesQuery = () => ({
-  queryKey: ['invoices'],
-  queryFn: () => api.getInvoices(),
-})
+import type { QueryClient } from "@tanstack/react-query";
 
-const loader = 
-  (queryClient: QueryClient) =>
-  async () => {
-    const query = invoicesQuery()
-    const dataFromCache = queryClient.getQueryData(query.queryKey)
-    if (dataFromCache) return dataFromCache
-    const response = await queryClient.fetchQuery(query)
-    return response.json()
-  }
+const loader = (queryClient: QueryClient) => async () => {
+  store.set(invoicesQPAtom, invoicesQPState);
+  const data = await fetchInvoices(queryClient)
+  store.set(invoicesAtom, data);
+  return data;
+};
 
 export default loader;

@@ -1,18 +1,26 @@
 /** @jsxImportSource @emotion/react */
 import { useState } from "react";
+import { useAtom } from "jotai";
 import { INVOICE_STATUS } from "@/types/enums";
 import { upperCaseFirstLetter } from "@/utils/helpers";
 import { MenuItem, Select } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
-
-import type { SelectChangeEvent } from "@mui/material";
+import { useFetchInvoices } from "@/hooks/useFetchInvoices";
+import { invoicesQPAtom } from "@/store/invoices";
 import { filterInput } from "./styles";
 
+import type { SelectChangeEvent } from "@mui/material";
+
 function StatusFilter() {
-  const [status, setStatus] = useState("");
+  const [invoicesQR, setInvoicesQR] = useAtom(invoicesQPAtom)
+  const [status, setStatus] = useState(invoicesQR.filter ?? "");
+  const fetchInvoices = useFetchInvoices()
 
   const handleStatusChange = (event: SelectChangeEvent<string>) => {
-    setStatus(event.target.value);
+    const value = event.target.value as INVOICE_STATUS 
+    setStatus(value);
+    setInvoicesQR({...invoicesQR, filter: value})
+    void fetchInvoices()
   };
 
   return (

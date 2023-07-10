@@ -1,5 +1,6 @@
 import { INVOICE_STATUS } from "@/types/enums";
-
+import type { Registry, Server } from "miragejs";
+import type { AnyFactories, AnyModels } from "miragejs/-types";
 export interface CommonProps {
   id: string;
   createdAt: Date;
@@ -19,3 +20,10 @@ export interface Invoice extends CommonProps {
   status: INVOICE_STATUS;
   favorite: boolean;
 }
+
+export interface QueryParams {
+  take: number;
+  skip: number;
+}
+
+export type MirageServer = Server<Registry<AnyModels, AnyFactories>>
