@@ -13,13 +13,13 @@ import type { SelectChangeEvent } from "@mui/material";
 
 function StatusFilter() {
   const [invoicesQR, setInvoicesQR] = useAtom(invoicesQPAtom)
-  const [status, setStatus] = useState(invoicesQR.filter ?? "");
+  const [status, setStatus] = useState(invoicesQR.filterStatus ?? "");
   const fetchInvoices = useFetchInvoices()
 
   const handleStatusChange = (event: SelectChangeEvent<string>) => {
     const value = event.target.value as INVOICE_STATUS 
     setStatus(value);
-    setInvoicesQR({...invoicesQR, filter: value})
+    setInvoicesQR({...invoicesQR, filterStatus: value, skip: "0"})
     void fetchInvoices()
   };
 

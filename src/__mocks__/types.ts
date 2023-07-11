@@ -22,7 +22,7 @@ export interface Invoice extends CommonProps {
 }
 
 export interface QueryParams {
-  take: number;
+  limit: number;
   skip: number;
 }
 

@@ -1,4 +1,5 @@
 import { INVOICES_SORT_COLUMN, INVOICE_STATUS, SORT_DIRECTION } from "./enums";
+import { TableDataParams} from "./utils";
 
 export interface DateCollectionType {
   createdAt?: Date;
@@ -18,18 +19,32 @@ export interface UserType {
 export interface InvoiceType {
   id: string;
   user: UserType;
-  date: Date;
+  date: Date | string;
   status: INVOICE_STATUS;
   favorite: boolean;
   createdAt?: Date;
   updatedAt: Date;
 }
 
+export interface InvoicesResponseData extends Omit<TableDataParams<InvoiceType>, "data"> {
+  data: InvoiceType[];
+}
+
 export type InvoicesQueryParams = {
-  take?: string;
   limit?: string;
+  skip?: string;
   search?: string;
-  filter?: INVOICE_STATUS;
+  filterStatus?: INVOICE_STATUS;
+  filterDateStart?: string;
+  filterDateEnd?: string;
   sort?: INVOICES_SORT_COLUMN;
   direction?: SORT_DIRECTION;
 };
+
+export type SortColumnDirectionType = {
+  ID: "ID";
+  NAME: "NAME";
+  EMAIL: "EMAIL";
+  DATE: "DATE";
+  STATUS: "STATUS";
+}

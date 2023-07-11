@@ -3,21 +3,22 @@ import store from "@/store";
 import { invoicesQPAtom } from "@/store/invoices";
 import { QueryClient } from "@tanstack/react-query";
 
-import type { InvoiceType } from "@/types/data";
+import type { InvoicesResponseData } from "@/types/data";
 
 const invoicesQuery = () => ({
   queryKey: ["invoices", store.get(invoicesQPAtom)],
   queryFn: () => api.getInvoices(),
 });
 
-async function fetchInvoices(queryClient: QueryClient) {
+async function fetchInvoices(
+  queryClient: QueryClient,
+): Promise<InvoicesResponseData> {
   const query = invoicesQuery();
 
-  const data: InvoiceType[] =
+  return (
     queryClient.getQueryData(query.queryKey) ??
-    (await queryClient.fetchQuery(query));
-
-  return data;
+    (await queryClient.fetchQuery(query))
+  );
 }
 
 export default fetchInvoices;

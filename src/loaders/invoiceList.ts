@@ -1,11 +1,11 @@
 import store from "@/store";
-import { invoicesAtom, invoicesQPAtom, invoicesQPState } from "@/store/invoices";
+import { invoicesAtom, invoicesQPAtom, initialInvoicesQPState } from "@/store/invoices";
 import fetchInvoices from "@/queries/invoices";
 
 import type { QueryClient } from "@tanstack/react-query";
 
 const loader = (queryClient: QueryClient) => async () => {
-  store.set(invoicesQPAtom, invoicesQPState);
+  store.set(invoicesQPAtom, initialInvoicesQPState);
   const data = await fetchInvoices(queryClient)
   store.set(invoicesAtom, data);
   return data;

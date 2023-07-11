@@ -1,19 +1,23 @@
+import { InvoiceType } from "@/types/data";
 import { Chip } from "@mui/material";
-import type { ColumnDef, CellContext } from "@tanstack/react-table";
+import dayjs from "dayjs";
+import type { AccessorFnColumnDef, CellContext } from "@tanstack/react-table";
+import { INVOICES_SORT_COLUMN } from "@/types/enums";
 
-export const columns: ColumnDef<unknown, unknown>[] = [
+export const columns: AccessorFnColumnDef<InvoiceType, string>[] = [
   {
-    accessorKey: "id",
+    id: INVOICES_SORT_COLUMN.ID,
+    accessorFn: (row) => row.id,
     header: "Invoice Id",
   },
   {
-    accessorKey: "user.fullName",
+    id: INVOICES_SORT_COLUMN.NAME,
+    accessorFn: (row) => `${row.user.firstName} ${row.user.lastName}`,
     header: "Name",
-    cell: (row: CellContext<unknown, unknown>) => {
-      console.log(row.getValue())
+    cell: (row: CellContext<InvoiceType, string>) => {
       return (
         <Chip
-          label={row.getValue() as string}
+          label={row.getValue()}
           size="small"
           color={row.getValue() === "active" ? "primary" : "default"}
         />
@@ -21,20 +25,23 @@ export const columns: ColumnDef<unknown, unknown>[] = [
     },
   },
   {
-    accessorKey: "user.email",
+    id: INVOICES_SORT_COLUMN.EMAIL,
+    accessorFn: (row) => row.user.email,
     header: "Email",
   },
   {
-    accessorKey: "date",
+    id: INVOICES_SORT_COLUMN.DATE,
+    accessorFn: (row) => dayjs(row.date).format("DD MMM, YYYY"),
     header: "Date",
   },
   {
-    accessorKey: "status",
+    id: INVOICES_SORT_COLUMN.STATUS,
+    accessorFn: (row) => row.status,
     header: "Status",
-    cell: (row: CellContext<unknown, unknown>) => {
+    cell: (row: CellContext<InvoiceType, string>) => {
       return (
         <Chip
-          label={row.getValue() as string}
+          label={row.getValue()}
           size="small"
           color={row.getValue() === "active" ? "primary" : "default"}
         />

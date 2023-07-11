@@ -6,12 +6,13 @@ const invoiceService = (baseUrl: string) => {
   const getInvoices = async () => {
     try {
       const queryParams = store.get(invoicesQPAtom);
-    const response = await fetch(
-      `${baseUrl}/invoices?${new URLSearchParams(queryParams).toString()}`,
-    )
-    return response.json();
+
+      const response = await fetch(
+        `${baseUrl}/invoices?${new URLSearchParams(queryParams).toString()}`,
+      );
+      return response.json();
     } catch (error) {
-      reportError({message: getErrorMessage(error)})
+      reportError({ message: getErrorMessage(error) });
     }
   };
 

@@ -1,9 +1,15 @@
 import { createStore } from "jotai";
-import type { ColumnDef } from '@tanstack/react-table'
 
 export type Store = ReturnType<typeof createStore>;
 
-export interface TableProps {
-  data: unknown[];
-  columns: ColumnDef<unknown>[];
+export interface TableDataParams<DataType> {
+  data: DataType[]
+  totalItems: number;
+  totalPages: number;
+  currentPage: number;
 }
+
+export type HandlePageChange = (
+  event: React.ChangeEvent<unknown>,
+  currentPage: number,
+) => void;

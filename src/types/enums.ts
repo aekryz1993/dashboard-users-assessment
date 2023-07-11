@@ -5,11 +5,12 @@ export enum INVOICE_STATUS {
 }
 
 export enum SORT_DIRECTION {
-  ASC = "ASC",
-  DESC = "DESC",
+  asc = "asc",
+  desc = "desc",
 }
 
 export enum INVOICES_SORT_COLUMN {
+  ID = "ID",
   NAME = "NAME",
   EMAIL = "EMAIL",
   DATE = "DATE",

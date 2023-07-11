@@ -1,57 +1,66 @@
+import { Paper, Table as MuiTable } from "@mui/material";
 import {
-  Paper,
-  Table as MuiTable,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from "@mui/material";
-import {
-  flexRender,
+  AccessorFnColumnDef,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import Head from "./Head";
+import Body from "./Body";
+import TablePagination from "./TablePagination";
+import { HandlePageChange, TableDataParams } from "@/types/utils";
 
-import type { TableProps } from "@/types/utils";
+export interface TableProps<Directions, SortType, DataType> {
+  dataParams: TableDataParams<DataType>;
+  columns: AccessorFnColumnDef<DataType, any>[];
+  isFetching: boolean;
+  skeletonHeight?: number;
+  skeletonCount?: number;
+  handlePageChange: HandlePageChange;
+  handleSortChange: ({ sort }: { sort: SortType }) => void;
+  directions: Directions;
+}
 
-function Table({ data, columns }: TableProps) {
-  const { getHeaderGroups, getRowModel } = useReactTable({
-    data,
+function Table<Directions, SortType, DataType>({
+  dataParams,
+  columns,
+  isFetching,
+  skeletonCount,
+  skeletonHeight,
+  handlePageChange,
+  handleSortChange,
+  directions,
+}: TableProps<Directions, SortType, DataType>) {
+  const { getHeaderGroups, getRowModel, getAllColumns } = useReactTable({
+    data: dataParams.data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    manualPagination: true,
+    pageCount: dataParams.totalPages,
   });
 
   return (
     <Paper elevation={2} style={{ padding: "1rem 0px" }}>
       <MuiTable>
-        <TableHead>
-          {getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableCell key={header.id}>
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableHead>
-        <TableBody>
-          {getRowModel().rows.map((row) => (
-            <TableRow key={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
+        <Head<Directions, DataType, SortType>
+          getHeaderGroups={getHeaderGroups}
+          handleSortChange={handleSortChange}
+          directions={directions}
+        />
+        <Body<DataType>
+          getRowModel={getRowModel}
+          getAllColumns={getAllColumns}
+          isFetching={isFetching}
+          skeletonHeight={skeletonHeight}
+          skeletonCount={skeletonCount}
+        />
       </MuiTable>
+      {dataParams.totalPages > 0 && dataParams.currentPage > 0 && (
+        <TablePagination
+          pageCount={dataParams.totalPages}
+          paginationPage={dataParams.currentPage}
+          handlePageChange={handlePageChange}
+        />
+      )}
     </Paper>
   );
 }

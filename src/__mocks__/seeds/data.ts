@@ -39,9 +39,10 @@ const createUser: (userDates: Dates) => User = (userDates) => ({
   updatedAt: userDates.updatedAt,
 });
 
-const createInvoice: ({userId, invoiceDates}: {userId: string, invoiceDates: Dates}) => Invoice = ({userId, invoiceDates}) =>
+const createInvoice: ({userId, invoiceDates, id}: {userId: string, invoiceDates: Dates, id: string}) => Invoice = ({userId, invoiceDates, id}) =>
   ({
-    id: faker.string.uuid(),
+    // id: faker.string.uuid(),
+    id,
     userId,
     date: faker.date.past({ years: 4 }),
     favorite: faker.datatype.boolean({ probability: 0.2 }),
@@ -53,11 +54,11 @@ const createInvoice: ({userId, invoiceDates}: {userId: string, invoiceDates: Dat
 export const createDBCollections = () => {
   const users: User[] = [];
   const invoices: Invoice[] = [];
-  Array.from(Array(100).values()).forEach(() => {
+  Array.from(Array(100).values()).forEach((_, index) => {
     const {invoiceDates, userDates} = generateCollectionDate();
     const user = createUser(userDates);
     users.push(user);
-    const invoice = createInvoice({invoiceDates, userId: user.id});
+    const invoice = createInvoice({invoiceDates, userId: user.id, id: index.toString()});
     invoices.push(invoice);
   })
   return {
