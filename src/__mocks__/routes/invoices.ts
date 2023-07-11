@@ -3,6 +3,8 @@ import type { Invoice, MirageServer, User } from "../types";
 import { handleInvoicesSortData } from "../helpers";
 import { initialInvoicesState } from "@/store/invoices";
 import dayjs from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
+dayjs.extend(isBetween);
 
 export function getInvoice(server: MirageServer) {
   server.get("/api/invoices", (schema, request) => {
@@ -27,10 +29,12 @@ export function getInvoice(server: MirageServer) {
         : null;
 
     const filteredDataByDate = parsedFilteredDates
-      ? schema.db.invoices.filter(
-          (invoice: Invoice) =>
-            dayjs(invoice.date) >= parsedFilteredDates.filterDateStart &&
-            dayjs(invoice.date) <= parsedFilteredDates.filterDateEnd,
+      ? schema.db.invoices.filter((invoice: Invoice) =>
+          dayjs(invoice.date).isBetween(
+            parsedFilteredDates.filterDateStart,
+            parsedFilteredDates.filterDateEnd,
+            'day'
+          ),
         )
       : schema.db.invoices;
 

@@ -5,23 +5,14 @@ import { INVOICE_STATUS } from "@/types/enums";
 import { upperCaseFirstLetter } from "@/utils/helpers";
 import { MenuItem, Select } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
-import { useFetchInvoices } from "@/hooks/useFetchInvoices";
 import { invoicesQPAtom } from "@/store/invoices";
+import { useStatusFilter } from "@/hooks/useStatusFilter";
 import { filterInput } from "./styles";
 
-import type { SelectChangeEvent } from "@mui/material";
-
 function StatusFilter() {
-  const [invoicesQR, setInvoicesQR] = useAtom(invoicesQPAtom)
+  const [invoicesQR] = useAtom(invoicesQPAtom)
   const [status, setStatus] = useState(invoicesQR.filterStatus ?? "");
-  const fetchInvoices = useFetchInvoices()
-
-  const handleStatusChange = (event: SelectChangeEvent<string>) => {
-    const value = event.target.value as INVOICE_STATUS 
-    setStatus(value);
-    setInvoicesQR({...invoicesQR, filterStatus: value, skip: "0"})
-    void fetchInvoices()
-  };
+  const handleStatusChange = useStatusFilter(setStatus)
 
   return (
     <FormControl css={filterInput}>

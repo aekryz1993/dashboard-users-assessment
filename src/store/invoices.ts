@@ -19,7 +19,7 @@ export const initialInvoicesState: InvoicesResponseData = {
 export const initialSortDirection = Object.keys(INVOICES_SORT_COLUMN).reduce(
   (sortDirections, currentColumn) => ({
     ...sortDirections,
-    [currentColumn]: SORT_DIRECTION.desc,
+    [currentColumn as INVOICES_SORT_COLUMN]: SORT_DIRECTION.desc,
   }),
   {},
 ) as {

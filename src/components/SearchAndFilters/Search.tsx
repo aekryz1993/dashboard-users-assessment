@@ -1,25 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { Input } from "@mui/material";
 import SearchOutlined from "@mui/icons-material/SearchOutlined";
+import { useSearch } from "@/hooks/useSearch";
 import { searchStyle } from "./styles";
-import { useAtom } from "jotai";
-import { useFetchInvoices } from "@/hooks/useFetchInvoices";
-import { invoicesQPAtom } from "@/store/invoices";
-import useDebounce from "@/hooks/useDebounce";
 
 function Search() {
-  const [invoicesQR, setInvoicesQR] = useAtom(invoicesQPAtom);
-  const fetchInvoices = useFetchInvoices();
-  const debounce = useDebounce();
-
-  const handleSearch = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    debounce(() => {
-      setInvoicesQR({ ...invoicesQR, search: event.target.value, skip: "0" });
-      void fetchInvoices();
-    });
-  };
+  const handleSearch = useSearch()
 
   return (
     <div css={searchStyle}>
