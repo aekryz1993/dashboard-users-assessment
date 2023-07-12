@@ -1,15 +1,20 @@
 /** @jsxImportSource @emotion/react */
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigation } from "react-router-dom";
 import { Sidebar } from "@/components";
 import { homeLayout, mainLayout } from "./styles";
+import { PageShimmer } from "@/components";
 
 function Home() {
-  return <div css={homeLayout}>
-    <Sidebar />
-    <main css={mainLayout}>
-      <Outlet />
-    </main>
-  </div>
+  const navigation = useNavigation();
+
+  return (
+    <div css={homeLayout}>
+      <Sidebar />
+      <main css={mainLayout}>
+        {navigation.state === "loading" ? <PageShimmer /> : <Outlet />}
+      </main>
+    </div>
+  );
 }
 
 export default Home;

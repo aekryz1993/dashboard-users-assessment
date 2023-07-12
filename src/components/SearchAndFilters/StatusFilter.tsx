@@ -7,18 +7,21 @@ import { MenuItem, Select } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import { invoicesQPAtom } from "@/store/invoices";
 import { useStatusFilter } from "@/hooks/useStatusFilter";
-import { filterInput } from "./styles";
+import { filterInput, filterStatusStyle } from "./styles";
 
 function StatusFilter() {
-  const [invoicesQR] = useAtom(invoicesQPAtom)
-  const [status, setStatus] = useState(invoicesQR.filterStatus ?? "");
-  const handleStatusChange = useStatusFilter(setStatus)
+  const [invoicesQR] = useAtom(invoicesQPAtom);
+  const [status, setStatus] = useState(invoicesQR.filterStatus ?? "none");
+  const handleStatusChange = useStatusFilter(setStatus);
 
   return (
     <FormControl css={filterInput}>
       <Select value={status} onChange={handleStatusChange}>
+        <MenuItem css={filterStatusStyle} value="none" disabled>
+          Select status
+        </MenuItem>
         {Object.keys(INVOICE_STATUS).map((statusKey) => (
-          <MenuItem value={statusKey} key={statusKey}>
+          <MenuItem css={filterStatusStyle} value={statusKey} key={statusKey}>
             {upperCaseFirstLetter(statusKey.toLowerCase())}
           </MenuItem>
         ))}

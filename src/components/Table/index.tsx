@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import { Paper, Table as MuiTable } from "@mui/material";
 import {
   AccessorFnColumnDef,
@@ -8,6 +9,7 @@ import Head from "./Head";
 import Body from "./Body";
 import TablePagination from "./TablePagination";
 import { HandlePageChange, TableDataParams } from "@/types/utils";
+import { paperStyle, tableStyle } from "./styles";
 
 export interface TableProps<Directions, SortType, DataType> {
   dataParams: TableDataParams<DataType>;
@@ -18,6 +20,7 @@ export interface TableProps<Directions, SortType, DataType> {
   handlePageChange: HandlePageChange;
   handleSortChange: ({ sort }: { sort: SortType }) => void;
   directions: Directions;
+  active?: boolean
 }
 
 function Table<Directions, SortType, DataType>({
@@ -29,6 +32,7 @@ function Table<Directions, SortType, DataType>({
   handlePageChange,
   handleSortChange,
   directions,
+  active,
 }: TableProps<Directions, SortType, DataType>) {
   const { getHeaderGroups, getRowModel, getAllColumns } = useReactTable({
     data: dataParams.data,
@@ -39,12 +43,13 @@ function Table<Directions, SortType, DataType>({
   });
 
   return (
-    <Paper elevation={2} style={{ padding: "1rem 0px" }}>
-      <MuiTable>
+    <Paper elevation={0} css={paperStyle}>
+      <MuiTable css={tableStyle}>
         <Head<Directions, DataType, SortType>
           getHeaderGroups={getHeaderGroups}
           handleSortChange={handleSortChange}
           directions={directions}
+          active={active}
         />
         <Body<DataType>
           getRowModel={getRowModel}

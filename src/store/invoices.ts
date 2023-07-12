@@ -33,3 +33,7 @@ export const invoicesAtom = atom(initialInvoicesState) as unknown as ReturnType<
 >;
 
 export const invoicesQPAtom = atom<InvoicesQueryParams>(initialInvoicesQPState);
+
+export const checkInvoicesAtom = atom<{[key: string]: boolean}>({
+  all: false,
+})

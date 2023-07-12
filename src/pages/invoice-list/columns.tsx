@@ -1,51 +1,64 @@
 import { InvoiceType } from "@/types/data";
-import { Chip } from "@mui/material";
 import dayjs from "dayjs";
 import type { AccessorFnColumnDef, CellContext } from "@tanstack/react-table";
 import { INVOICES_SORT_COLUMN } from "@/types/enums";
+import {
+  DateCol,
+  EmailCol,
+  IdCol,
+  NameCol,
+  StatusCol,
+  MenuCol,
+} from "@/components/InvoiceListColumns";
 
-export const columns: AccessorFnColumnDef<InvoiceType, string>[] = [
+const cell = (row: CellContext<InvoiceType, React.ReactElement<any, any>>) =>
+  row.getValue();
+
+export const columns: AccessorFnColumnDef<
+  InvoiceType,
+  React.ReactElement<any, any>
+>[] = [
   {
     id: INVOICES_SORT_COLUMN.ID,
-    accessorFn: (row) => row.id,
+    accessorFn: (row) => <IdCol id={row.id} />,
     header: "Invoice Id",
+    cell,
   },
   {
     id: INVOICES_SORT_COLUMN.NAME,
-    accessorFn: (row) => `${row.user.firstName} ${row.user.lastName}`,
+    accessorFn: (row) => (
+      <NameCol
+        avatarUrl={row.user.avatarUrl}
+        firstName={row.user.firstName}
+        lastName={row.user.lastName}
+      />
+    ),
     header: "Name",
-    cell: (row: CellContext<InvoiceType, string>) => {
-      return (
-        <Chip
-          label={row.getValue()}
-          size="small"
-          color={row.getValue() === "active" ? "primary" : "default"}
-        />
-      );
-    },
+    cell,
   },
   {
     id: INVOICES_SORT_COLUMN.EMAIL,
-    accessorFn: (row) => row.user.email,
+    accessorFn: (row) => <EmailCol email={row.user.email} />,
     header: "Email",
+    cell,
   },
   {
     id: INVOICES_SORT_COLUMN.DATE,
-    accessorFn: (row) => dayjs(row.date).format("DD MMM, YYYY"),
+    accessorFn: (row) => (
+      <DateCol date={dayjs(row.date).format("DD MMM, YYYY")} />
+    ),
     header: "Date",
+    cell,
   },
   {
     id: INVOICES_SORT_COLUMN.STATUS,
-    accessorFn: (row) => row.status,
+    accessorFn: (row) => <StatusCol status={row.status} />,
     header: "Status",
-    cell: (row: CellContext<InvoiceType, string>) => {
-      return (
-        <Chip
-          label={row.getValue()}
-          size="small"
-          color={row.getValue() === "active" ? "primary" : "default"}
-        />
-      );
-    },
+    cell,
+  },
+  {
+    id: "menu",
+    accessorFn: () => <MenuCol />,
+    cell,
   },
 ];

@@ -1,9 +1,12 @@
+/** @jsxImportSource @emotion/react */
 import { LIMIT } from "@/utils/variables";
 import { TableBody, TableCell, TableRow, Skeleton } from "@mui/material";
 import { flexRender } from "@tanstack/react-table";
 import CheckboxCell from "./CheckboxCell";
+import { tableBodyStyle } from "./styles";
 
 import type { RowModel, Column } from "@tanstack/react-table";
+import { Children } from "react";
 
 interface BodyProps<DataType> {
   getRowModel: () => RowModel<DataType>;
@@ -17,7 +20,7 @@ function Body<DataType>({
   getRowModel,
   isFetching,
   getAllColumns,
-  skeletonHeight = 28,
+  skeletonHeight = 42,
   skeletonCount = LIMIT,
 }: BodyProps<DataType>) {
   const skeletons = Array.from({ length: skeletonCount }, (_, i) => i);
@@ -26,10 +29,10 @@ function Body<DataType>({
   return (
     <>
       {!isFetching ? (
-        <TableBody>
+        <TableBody css={tableBodyStyle}>
           {getRowModel().rows.map((row) => (
             <TableRow key={row.id}>
-              <CheckboxCell />
+              <CheckboxCell name={row.id} />
               {row.getVisibleCells().map((cell) => (
                 <TableCell key={cell.id}>
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -42,11 +45,14 @@ function Body<DataType>({
         <>
           {skeletons.map((skeleton) => (
             <TableRow key={skeleton}>
-              {Array.from({ length: columnCount + 1 }, (_, i) => i).map((elm) => (
-                <TableCell key={elm}>
-                  <Skeleton height={skeletonHeight} />
-                </TableCell>
-              ))}
+              {Children.map(
+                Array.from({ length: columnCount + 1 }),
+                () => (
+                  <TableCell>
+                    <Skeleton height={skeletonHeight} />
+                  </TableCell>
+                ),
+              )}
             </TableRow>
           ))}
         </>

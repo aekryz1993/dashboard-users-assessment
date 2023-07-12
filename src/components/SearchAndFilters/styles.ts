@@ -24,7 +24,25 @@ export const searchStyle = css`
 `;
 
 export const filterInput = css`
-  .MuiInputBase-input {
-    padding: 0.625rem 0.96169rem 0.625rem 0.6875rem;
+  & .MuiInputBase-root {
+    min-width: 14rem;
+    background-color: #fff;
+    border: none;
+    border-radius: 0.625rem;
+    & .MuiInputBase-input {
+      padding: 0.625rem 0.96169rem 0.625rem 0.6875rem;
+    }
+    & fieldset {
+      display: none;
+    }
   }
-`
+`;
+
+export const filterStatusStyle = css`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & .reset {
+    color: #94A3B8
+  }
+`;
