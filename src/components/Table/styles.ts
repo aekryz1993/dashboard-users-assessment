@@ -1,5 +1,4 @@
 import { css } from "@emotion/react";
-import styled from "@emotion/styled";
 
 export const paperStyle = css`
   background-color: var(--light-version-background, #f1f4fa);
@@ -59,8 +58,12 @@ export const paginationItemContainerStyle = css`
     width: 3.9375rem;
     border-radius: 0.625rem;
     background: var(--basic-white, #fff);
+    min-width: 5rem;
     & .MuiOutlinedInput-notchedOutline {
       border: none;
+    }
+    & fieldset {
+      display: none;
     }
   }
   & .pagination-buttons {

@@ -1,18 +1,21 @@
-import { useAtom } from "jotai";
-import { checkInvoicesAtom } from "@/store/invoices";
 import { TableCell, Checkbox } from "@mui/material";
-import { useCheckboxSelect } from "@/hooks/useCheckboxSelect";
+import { CheckItems, HandleChangeEvent } from "@/types/utils";
 
-function CheckboxCell({ name }: { name: string }) {
-  const [checkInvoices] = useAtom(checkInvoicesAtom);
-  const onSelectAllClick = useCheckboxSelect()
-
+function CheckboxCell({
+  name,
+  onSelectAllClick,
+  checkItems,
+}: {
+  name: string;
+  onSelectAllClick: HandleChangeEvent;
+  checkItems: CheckItems;
+}) {
   return (
     <TableCell padding="checkbox">
       <Checkbox
         name={name}
         color="primary"
-        checked={checkInvoices[name]}
+        checked={checkItems[name]}
         onChange={onSelectAllClick}
         inputProps={{
           "aria-label": "select all desserts",

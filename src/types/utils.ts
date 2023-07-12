@@ -12,7 +12,7 @@ export interface TableDataParams<DataType> {
 }
 
 export type HandlePageChange = (
-  event: React.ChangeEvent<unknown> | SelectChangeEvent<number>,
+  event: React.ChangeEvent<string> | SelectChangeEvent<number>,
   currentPage: number | string,
 ) => void;
 
@@ -24,4 +24,10 @@ export interface RouteName {
   messages: string;
   notification: string;
   settings: string;
+}
+
+export type HandleChangeEvent = (event: React.ChangeEvent<HTMLInputElement>) => void
+
+export type CheckItems = {
+  [key: string]: boolean;
 }

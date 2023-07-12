@@ -8,13 +8,18 @@ import {
 import Head from "./Head";
 import Body from "./Body";
 import TablePagination from "./TablePagination";
-import { HandlePageChange, TableDataParams } from "@/types/utils";
+import {
+  CheckItems,
+  HandleChangeEvent,
+  HandlePageChange,
+  TableDataParams,
+} from "@/types/utils";
 import { paperStyle, tableStyle } from "./styles";
 import EmptyData from "./EmptyData";
 
 export interface TableProps<Directions, SortType, DataType> {
-  dataParams: TableDataParams<DataType>;
-  columns: AccessorFnColumnDef<DataType, any>[];
+  dataParams: TableDataParams<DataType & { id: string }>;
+  columns: AccessorFnColumnDef<DataType & { id: string }, any>[];
   isFetching: boolean;
   skeletonHeight?: number;
   skeletonCount?: number;
@@ -22,6 +27,8 @@ export interface TableProps<Directions, SortType, DataType> {
   handleSortChange: ({ sort }: { sort: SortType }) => void;
   directions: Directions;
   active?: boolean;
+  onSelectAllClick: HandleChangeEvent;
+  checkItems: CheckItems;
 }
 
 function Table<Directions, SortType, DataType>({
@@ -34,6 +41,8 @@ function Table<Directions, SortType, DataType>({
   handleSortChange,
   directions,
   active,
+  onSelectAllClick,
+  checkItems,
 }: TableProps<Directions, SortType, DataType>) {
   const { getHeaderGroups, getRowModel, getAllColumns } = useReactTable({
     data: dataParams?.data || [],
@@ -53,6 +62,8 @@ function Table<Directions, SortType, DataType>({
               handleSortChange={handleSortChange}
               directions={directions}
               active={active}
+              onSelectAllClick={onSelectAllClick}
+              checkItems={checkItems}
             />
             <Body<DataType>
               getRowModel={getRowModel}
@@ -60,6 +71,8 @@ function Table<Directions, SortType, DataType>({
               isFetching={isFetching}
               skeletonHeight={skeletonHeight}
               skeletonCount={skeletonCount}
+              onSelectAllClick={onSelectAllClick}
+              checkItems={checkItems}
             />
           </MuiTable>
           {dataParams?.totalPages > 0 && dataParams?.currentPage > 0 && (

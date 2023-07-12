@@ -6,12 +6,15 @@ import { SORT_DIRECTION } from "@/types/enums";
 import { tableHeadStyle } from "./styles";
 
 import type { HeaderGroup } from "@tanstack/react-table";
+import { CheckItems, HandleChangeEvent } from "@/types/utils";
 
 interface HeadProps<Directions, DataType, SortType> {
-  getHeaderGroups: () => HeaderGroup<DataType>[];
+  getHeaderGroups: () => HeaderGroup<DataType & { id: string }>[];
   directions: Directions;
   active?: boolean;
   handleSortChange: ({ sort }: { sort: SortType }) => void;
+  onSelectAllClick: HandleChangeEvent;
+  checkItems: CheckItems;
 }
 
 function Head<Directions, DataType, SortType>({
@@ -19,12 +22,18 @@ function Head<Directions, DataType, SortType>({
   handleSortChange,
   active = true,
   directions,
+  onSelectAllClick,
+  checkItems,
 }: HeadProps<Directions, DataType, SortType>) {
   return (
     <TableHead css={tableHeadStyle}>
       {getHeaderGroups().map((headerGroup) => (
         <TableRow key={headerGroup.id}>
-          <CheckboxCell name="all" />
+          <CheckboxCell
+            name="all"
+            onSelectAllClick={onSelectAllClick}
+            checkItems={checkItems}
+          />
           {headerGroup.headers.map((header) => (
             <TableCell key={header.id}>
               {header.id !== "menu" ? (

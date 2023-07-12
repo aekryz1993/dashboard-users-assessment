@@ -41,8 +41,7 @@ const createUser: (userDates: Dates) => User = (userDates) => ({
 
 const createInvoice: ({userId, invoiceDates, id}: {userId: string, invoiceDates: Dates, id: string}) => Invoice = ({userId, invoiceDates, id}) =>
   ({
-    // id: faker.string.uuid(),
-    id,
+    id: "#" + faker.string.nanoid(6),
     userId,
     date: faker.date.past({ years: 4 }),
     favorite: faker.datatype.boolean({ probability: 0.2 }),
