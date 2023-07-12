@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 
 export const paperStyle = css`
   background-color: var(--light-version-background, #f1f4fa);
@@ -96,4 +97,16 @@ export const doubleArrowBoxStyle = css`
   border: 1px solid #f1f1f1;
   background: #fff;
   cursor: pointer;
+`;
+
+export const emptyDataLayout = css`
+  width: 100%;
+  height: 16rem;
+  justify-content: center;
+  align-items: center;
+  & h1 {
+    font-size: 2rem;
+    opacity: 0.5;
+    font-weight: 700;
+  }
 `;

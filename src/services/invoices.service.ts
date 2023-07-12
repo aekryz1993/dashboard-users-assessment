@@ -10,7 +10,8 @@ const invoiceService = (baseUrl: string) => {
       const response = await fetch(
         `${baseUrl}/invoices?${new URLSearchParams(queryParams).toString()}`,
       );
-      return response.json();
+      if(response.status === 200) return response.json();
+      throw new Error('Unknown error')
     } catch (error) {
       reportError({ message: getErrorMessage(error) });
     }

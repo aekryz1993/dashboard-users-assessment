@@ -8,8 +8,8 @@ function Footer() {
   return (
     <Stack direction="row" css={footerStyle} alignItems='center' gap={1}>
       <AvatarImg url={userAvatar} />
-      <Stack>
-        <span>Easin Arafat</span>
+      <Stack >
+        <span className="title">Easin Arafat</span>
         <span css={subTextStyle}>
           Free Account
         </span>

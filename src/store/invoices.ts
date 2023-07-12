@@ -1,6 +1,10 @@
 import { atom } from "jotai";
 
-import type { InvoiceType, InvoicesQueryParams, InvoicesResponseData } from "@/types/data";
+import type {
+  InvoiceType,
+  InvoicesQueryParams,
+  InvoicesResponseData,
+} from "@/types/data";
 import { INVOICES_SORT_COLUMN, SORT_DIRECTION } from "@/types/enums";
 import { TableDataParams } from "@/types/utils";
 
@@ -23,7 +27,7 @@ export const initialSortDirection = Object.keys(INVOICES_SORT_COLUMN).reduce(
   }),
   {},
 ) as {
-  [sortColumn in INVOICES_SORT_COLUMN]: SORT_DIRECTION
+  [sortColumn in INVOICES_SORT_COLUMN]: SORT_DIRECTION;
 };
 
 export const sortDirectionAtom = atom(initialSortDirection);
@@ -34,6 +38,10 @@ export const invoicesAtom = atom(initialInvoicesState) as unknown as ReturnType<
 
 export const invoicesQPAtom = atom<InvoicesQueryParams>(initialInvoicesQPState);
 
-export const checkInvoicesAtom = atom<{[key: string]: boolean}>({
+export const checkInvoicesAtom = atom<{ [key: string]: boolean }>({
   all: false,
-})
+});
+
+export const fetchInvoicesErrorAtom = atom<{ error: string | null }>({
+  error: null,
+});

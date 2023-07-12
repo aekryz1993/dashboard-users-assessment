@@ -21,6 +21,10 @@ export const footerStyle = css`
   left: 0;
   padding: 1.5rem 1.2rem;
   width: 100%;
+  justify-content: space-between;
+  & .title {
+    font-size: 0.8rem;
+  }
 `;
 
 export const AvatarImg = styled.div<{ url: string }>`

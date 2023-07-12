@@ -1,5 +1,4 @@
 const routesList = {
-  home: '/',
   analytics: '/analytics',
   dashboard: '/dashboard',
   schedule: '/schedule',

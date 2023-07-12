@@ -7,6 +7,10 @@ import { Home, InvoiceList, EmptyPage } from "@/pages";
 import { invoiceListLoader } from "@/loaders";
 import { QueryClient } from "@tanstack/react-query";
 import routesList from "./routes-list";
+import { Children } from "react";
+import { ErrorBoundary } from "@/components";
+
+import type { RouteName } from "@/types/utils";
 
 const router = (queryClient: QueryClient) =>
   createBrowserRouter(
@@ -16,35 +20,11 @@ const router = (queryClient: QueryClient) =>
           index
           element={<InvoiceList />}
           loader={invoiceListLoader(queryClient)}
+          errorElement={<ErrorBoundary />}
         />
-        <Route
-          path={routesList.analytics}
-          element={<EmptyPage />}
-        />
-        <Route
-          path={routesList.dashboard}
-          element={<EmptyPage />}
-        />
-        <Route
-          path={routesList.calendar}
-          element={<EmptyPage />}
-        />
-        <Route
-          path={routesList.schedule}
-          element={<EmptyPage />}
-        />
-        <Route
-          path={routesList.notification}
-          element={<EmptyPage />}
-        />
-        <Route
-          path={routesList.messages}
-          element={<EmptyPage />}
-        />
-        <Route
-          path={routesList.settings}
-          element={<EmptyPage />}
-        />
+        {Children.map(Object.keys(routesList) as (keyof RouteName)[], (child) => (
+          <Route path={routesList[child]} element={<EmptyPage />} />
+        ))}
       </Route>,
     ]),
   );

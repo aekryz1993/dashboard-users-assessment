@@ -8,7 +8,7 @@ function PageShimmer() {
   return (
     <Stack gap={4} css={shimmerLayoutStyle}>
       {Children.map(Array.from(Array(LIMIT).values()), () => (
-        <Skeleton variant="rectangular" width={210} height={118} />
+        <Skeleton variant="rectangular" width='90%' height={92} />
       ))}
     </Stack>
   );
